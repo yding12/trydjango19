@@ -1,13 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{% block head_title %}List the items{% endblock head_title %}</title>
+    <style>
+        {% block style %}
+        {% endblock style %}
+    </style>
 </head>
+
 <body>
-<div>
-    <h1>HELLO WORLD LUHAN</h1>
+
+{% if messages%}
+<div class="messages">
+
+    <ul class="message">
+        {% for m in messages %}
+        <li {% if m.tags %} class="{{m.tags}}" {% endif %}>{{ m }}</li>
+        {% endfor %}
+    </ul>
+
 </div>
+{% endif %}
+
 <div class="container">
     {% block content %}
     <H2>{{title}} is working</H2>

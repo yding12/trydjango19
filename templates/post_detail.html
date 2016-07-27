@@ -1,14 +1,21 @@
 {% extends "base.html" %}
-{% if messages%}
-<ul class="message">
-    {% for m in messages %}
-    <li {% if m.tags %} class="{{m.tags}}" {% endif %}>{{ m }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
+
+{% block head_title %}{{instance.title}} | {{ block.super }}{% endblock head_title %}
+
+{% block style %}
+h1{
+color:pink;
+}
+{% endblock style %}
+
+
+{% block content %}
 
 <h1>{{title}}</h1>
+
 {{instance.title}}<br/>
 {{instance.id}}<br/>
 {{instance.content}}<br/>
 {{instance.updated}}
+
+{% endblock content%}
