@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    {% block content %}
+    <H2>{{title}} is working</H2>
+    {% for obj in object_list %}
+    {% url "posts:detail" id=obj.id %}
+    <a href='{{obj.get_absolute_url}}'>{{obj.title}}</a><br/>
+    <!--<a href='{% url "posts:detail" id=obj.id %}'>{{obj.title}}</a><br/>-->
+    {{obj.content}}<br/>
+    {{obj.timestamp}}<br/><br/><br/>
+    {% endfor %}
+
+    {% endblock content %}
+</div>
+</body>
+</html>
