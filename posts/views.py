@@ -31,21 +31,20 @@ def post_create(request):
     #     print request.POST.get("content")
     #     print request.POST.get("title")
         return HttpResponseRedirect(instance.get_absolute_url())
-    else:
-        messages.error(request, "Fail created ")
+
     context = {
         "form":form,
     }
     return render(request, "post_form.html", context)
 
 def post_list(request):
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().order_by("-timestamp")
     context_data = {
         "title":"detail",
         "object_list":queryset
 
     }
-    return render(request,"base.html",context_data)
+    return render(request,"post_list.html",context_data)
 
 def post_update(request, id=None):
     instance = get_object_or_404(Post, id=id)
