@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 {% block head_title %}{{instance.title}} | {{ block.super }}{% endblock head_title %}
 
 {% block style %}
@@ -11,11 +11,11 @@ color:pink;
 
 {% block content %}
 
-<h1>{{title}}</h1>
+<div class="col-sm-6 col-sm-offset-3">
+<h1>{{title}}<small>{{instance.timestamp}}</small></h1>
 
-{{instance.title}}<br/>
-{{instance.id}}<br/>
-{{instance.content}}<br/>
-{{instance.updated}}
+{{instance.content|linebreaks}}<br/>
 
-{% endblock content%}
+<img src='{% static "img/back.jpg" %}' />
+</div>
+    {% endblock content%}
