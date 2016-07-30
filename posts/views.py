@@ -24,7 +24,7 @@ def post_delete(request, id=None):
     return redirect("posts:list")
 
 def post_create(request):
-    form = PostForm(request.POST or None)
+    form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         instance = form.save(commit=False)
         instance.save()
@@ -41,7 +41,7 @@ def post_create(request):
 
 def post_list(request):
     queryset_list = Post.objects.all().order_by("-timestamp")
-    paginator = Paginator(queryset_list,2)#show 5 psots every page
+    paginator = Paginator(queryset_list,3)#show 5 psots every page
     page_request_var = "aaa"
     page = request.GET.get(page_request_var)
     try:
@@ -52,7 +52,7 @@ def post_list(request):
         queryset = paginator.page(paginator.num_pages)
 
     context_data = {
-        "title":"detail",
+        "title":"The Moments Between Them",
         "object_list":queryset,
         "page_request_var": page_request_var
 
@@ -61,7 +61,7 @@ def post_list(request):
 
 def post_update(request, id=None):
     instance = get_object_or_404(Post, id=id)
-    form = PostForm(request.POST or None, instance=instance)
+    form = PostForm(request.POST or None, request.FILES or None, instance=instance)
     if form.is_valid():
         instance = form.save(commit=False)
         instance.save()
