@@ -7,17 +7,17 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
-def post_detail(request,id=None):
+def post_detail(request,slug=None):
     #instance = Post.objects.get(id=3)
-    instance = get_object_or_404(Post, id=id)
+    instance = get_object_or_404(Post, slug=slug)
     context = {
         "title":"detail",
          "instance":instance
     }
     return render(request, "post_detail.html", context)
 
-def post_delete(request, id=None):
-    instance = get_object_or_404(Post, id=id)
+def post_delete(request, slug=None):
+    instance = get_object_or_404(Post, slug=slug)
     instance.delete()
     messages.success(request, "delete successfully")
     # return redirect("posts:list")
@@ -52,15 +52,15 @@ def post_list(request):
         queryset = paginator.page(paginator.num_pages)
 
     context_data = {
-        "title":"The Moments Between Them",
+        "title":"The Sweet Moment between Them",
         "object_list":queryset,
         "page_request_var": page_request_var
 
     }
     return render(request,"post_list.html",context_data)
 
-def post_update(request, id=None):
-    instance = get_object_or_404(Post, id=id)
+def post_update(request, slug=None):
+    instance = get_object_or_404(Post, slug=slug)
     form = PostForm(request.POST or None, request.FILES or None, instance=instance)
     if form.is_valid():
         instance = form.save(commit=False)
