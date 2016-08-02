@@ -4,15 +4,19 @@ from django.shortcuts import render, get_object_or_404,redirect
 from .models import Post
 from .forms import PostForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from urllib import quote_plus
 
 # Create your views here.
 def post_detail(request,slug=None):
     #instance = Post.objects.get(id=3)
     instance = get_object_or_404(Post, slug=slug)
+    # building up a query string to go into a URL
+    share_string = quote_plus(instance.content)
+
     context = {
         "title":"detail",
-         "instance":instance
+         "instance":instance,
+        "share_string":share_string
     }
     return render(request, "post_detail.html", context)
 
