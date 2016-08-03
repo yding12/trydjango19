@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load urlify %}
 {% block head_title %}{{instance.title}} | {{ block.super }}{% endblock head_title %}
 
 {% block style %}
@@ -11,12 +12,14 @@ color:pink;
 
 {% block content %}
 
-<div class="col-sm-6 col-sm-offset-3">
+<div class="col-sm-6 col-sm-offset-3" xmlns="http://www.w3.org/1999/html">
 <h1>{{instance.title}} <small>{{instance.timestamp}}</small></h1>
+
     {% if instance.image %}
         <img src="{{instance.image.url}}" class="img-responsive"  width="200"/>
     {% endif %}
 <h3>{{instance.content|linebreaks}}</h3><br/>
+
 
 </div>
     {% endblock content%}

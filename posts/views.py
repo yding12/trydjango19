@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse,HttpResponseRedirect,Http404
 from django.shortcuts import render, get_object_or_404,redirect
 from .models import Post
 from .forms import PostForm
@@ -7,30 +7,36 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from urllib import quote_plus
 
 # Create your views here.
-def post_detail(request,slug=None):
-    #instance = Post.objects.get(id=3)
-    instance = get_object_or_404(Post, slug=slug)
+def post_detail(request,id=None):
+    # instance = Post.objects.get(slug=slug)
+    instance = get_object_or_404(Post, id=id)
     # building up a query string to go into a URL
-    share_string = quote_plus(instance.content)
+
 
     context = {
         "title":"detail",
          "instance":instance,
-        "share_string":share_string
+
     }
     return render(request, "post_detail.html", context)
 
-def post_delete(request, slug=None):
-    instance = get_object_or_404(Post, slug=slug)
+def post_delete(request, id=None):
+    # if not request.user.is_staff or not request.user.is_superuser:
+    #     raise Http404
+    instance = get_object_or_404(Post, id=id)
     instance.delete()
     messages.success(request, "delete successfully")
     # return redirect("posts:list")
     return redirect("posts:list")
 
 def post_create(request):
+
+    # if not request.user.is_staff or not request.user.is_superuser:
+    #     raise Http404
     form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         instance = form.save(commit=False)
+
         instance.save()
         messages.success(request, "Success Created", extra_tags="some_tags")
     # if request.method == 'POST':
@@ -63,8 +69,10 @@ def post_list(request):
     }
     return render(request,"post_list.html",context_data)
 
-def post_update(request, slug=None):
-    instance = get_object_or_404(Post, slug=slug)
+def post_update(request, id=None):
+    # if not request.user.is_staff or not request.user.is_superuser:
+    #     raise Http404
+    instance = get_object_or_404(Post, id=id)
     form = PostForm(request.POST or None, request.FILES or None, instance=instance)
     if form.is_valid():
         instance = form.save(commit=False)
