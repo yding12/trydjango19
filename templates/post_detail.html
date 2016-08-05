@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load urlify %}
 {% block head_title %}{{instance.title}} | {{ block.super }}{% endblock head_title %}
 
 {% block style %}
@@ -11,12 +12,38 @@ color:pink;
 
 {% block content %}
 
-<div class="col-sm-6 col-sm-offset-3">
-<h1>{{instance.title}} <small>{{instance.timestamp}}</small></h1>
+
+<div class="col-sm-6 col-sm-offset-3" xmlns="http://www.w3.org/1999/html">
+
+    {{share_string}}
+    {{instance.content|urlify}}
+
+    <h1>{{instance.title}} <small>{{instance.timestamp|timesince}} ago</small></h1>
+
+    {%if instance.user.get_full_name %}
+    <p>Author: {{instance.user.get_full_name}}</p>
+    {% endif %}
     {% if instance.image %}
         <img src="{{instance.image.url}}" class="img-responsive"  width="200"/>
     {% endif %}
+</br>
+<div class="fb-like" data-href={{request.build_absolute_uri}}  data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
 <h3>{{instance.content|linebreaks}}</h3><br/>
+    <!--<a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}">-->
+<!--Facebook-->
+<!--</a>-->
+
+    <!--<a href="https://twitter.com/home?status={{share_string}}%20{{request.build_absolute_uri}}">-->
+<!--Twitter-->
+<!--</a>-->
+
+
+    <!--<a href='https://plus.google.com/share?url={{request.build_absolute_uri}}'>google</a>-->
+        <!--<a href="https://www.linkedin.com/shareArticle?mini=true&url={{request.build_absolute_uri}}&title={{share_string}}%20&source={{request.build_absolute_uri}}">-->
+<!--Linkedin-->
+<!--</a>-->
+ <div class="fb-comments" data-href={{request.build_absolute_uri}} data-numposts="5"></div>
 
 </div>
+
     {% endblock content%}

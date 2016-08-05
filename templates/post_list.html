@@ -2,7 +2,7 @@
 
 
 {% block content %}
-<div class="col-sm-8 col-sm-offset-2">
+<div class="col-sm-6 col-sm-offset-3">
     <H1>{{title}}</H1>
 
 <div class="row">
@@ -12,7 +12,10 @@
     <div class="thumbnail">
 
       <div class="caption">
-        <h3> <a href='{{obj.get_absolute_url}}'>{{obj.title}}</a> <small>{{obj.timestamp|timesince}} ago</small></h3>
+        <h3> <a href='{{obj.get_absolute_url}}'>{{obj.title}}</a> <small>{{obj.timestamp}}</small></h3>
+          {%if obj.user.get_full_name %}
+          <p>Author: {{obj.user.get_full_name}}</p>
+          {% endif %}
           {% if obj.image %}
           <img src="{{obj.image.url}}" class="img-responsive" width="150" height="150">
           {% endif %}
